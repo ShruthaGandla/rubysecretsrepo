@@ -1,0 +1,47 @@
+<p>Hello  <%= @user.name %>!!! </p>
+
+<form action="/secrets" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <p>New Secret</p>
+    <input type='textarea' name ='secret[content]'><br>
+    <input type="submit" value="Create Secret">
+  </form>
+
+<h3>Secrets</h3>
+
+<% if !@secrets.empty?%>
+  <% @secrets.each do |secret| %>
+    <p><%= secret.content %></p>
+    <p><%= secret.likes.count %> likes</p>
+    <% if secret.user_id == @user.id%>
+        <form action='/secrets/<%= secret.id %>' method='post'>
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="_method" value="delete">
+
+            <input type='submit' value='delete' ><br>
+        </form>
+
+    <% end %>
+
+  <% end %>
+    
+<% end %>
+
+
+
+
+<h3>Secrets Liked</h3>
+
+<% if !flash.empty? %>         
+    <p>  <%= flash[:error] %> </p>            
+<% end %> 
+
+
+
+<% if @user %>
+  <form action="/sessions/<%=@user.id%>" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit" value="Log Out">
+  </form>
+<% end %> 
