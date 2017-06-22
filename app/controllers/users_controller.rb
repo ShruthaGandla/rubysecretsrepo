@@ -23,14 +23,24 @@ class UsersController < ApplicationController
     end
 
     def show
-        @user = current_user
-        @secrets = Secret.all
+        if current_user
+            @user = current_user
+            @secrets = Secret.all
+         else
+             redirect_to '/sessions/new'
+        end
+            
+
     end
 
     def createlikes
-        puts Secret.find(params[:id])
-         Like.create(user:current_user,secret:Secret.find(params[:id]))
-        redirect_to '/allsecrets'
+        if current_user
+            Like.create(user:current_user,secret:Secret.find(params[:id]))
+            redirect_to '/allsecrets'
+        else
+            redirect_to '/sessions/new'
+        end   
+            
     end
 
     def unlike
