@@ -1,0 +1,43 @@
+<% if !@secrets.empty?%>
+  <% @secrets.each do |secret| %>  
+    
+        <p><%= secret.content %></p>
+        <p><%= secret.likes.count %> likes</p>
+
+        <% if current_user == secret.user%>
+        <form action='/secrets/<%= secret.id %>' method='post'>
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="_method" value="delete">
+
+            <input type='submit' value='delete' ><br>
+        </form>
+        <% end %>
+
+        <% if secret.userswho_liked.include?(@user)%>
+             <form action='/unlike/<%= secret.id %>' method='post'>
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="_method" value="delete">
+
+            <input type='submit' value='Unlike' ><br>
+        </form>
+           
+        <%  elsif !secret.userswho_liked.include?(@user)%> 
+
+            <a href='/likes/<%= secret.id %>'> <button>Like</button> </a> 
+        <% end %>
+
+        
+
+  <% end %>
+    
+<% end %>
+
+<% if @user %>
+  <form action="/sessions/<%=@user.id%>" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit" value="Log Out">
+  </form>
+<% end %> 
+
+<a href='/users/profile'> <button>Back</button> </a>

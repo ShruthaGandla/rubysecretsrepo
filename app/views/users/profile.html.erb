@@ -9,11 +9,11 @@
 
 <h3>Secrets</h3>
 
-<% if !@secrets.empty?%>
-  <% @secrets.each do |secret| %>
-    <p><%= secret.content %></p>
-    <p><%= secret.likes.count %> likes</p>
-    <% if secret.user_id == @user.id%>
+<% if !@secrets_created.empty?%>
+  <% @secrets_created.each do |secret| %>  
+    
+        <p><%= secret.content %></p>
+        <p><%= secret.likes.count %> likes</p>
         <form action='/secrets/<%= secret.id %>' method='post'>
             <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
             <input type="hidden" name="_method" value="delete">
@@ -21,7 +21,7 @@
             <input type='submit' value='delete' ><br>
         </form>
 
-    <% end %>
+    
 
   <% end %>
     
@@ -31,6 +31,19 @@
 
 
 <h3>Secrets Liked</h3>
+
+<% if !@liked_secrets.empty?%>
+  <% @liked_secrets.each do |secret| %>  
+    
+        <p><%= secret.content %></p>
+        <p><%= secret.likes.count %> likes</p>
+
+  <% end %>
+    
+<% end %>
+
+
+<a href='/allsecrets'> <button>View All The Secrets</button> </a>
 
 <% if !flash.empty? %>         
     <p>  <%= flash[:error] %> </p>            

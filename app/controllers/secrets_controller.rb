@@ -14,9 +14,9 @@ class SecretsController < ApplicationController
     
   end
 
-  def delete
+  def destroy
       secret = Secret.find(params[:id])
-     secret.delete
+     secret.destroy
      redirect_to '/users/profile'
   end
 
